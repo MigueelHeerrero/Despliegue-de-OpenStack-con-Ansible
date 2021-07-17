@@ -1,0 +1,12 @@
+<network>
+<name>NAT_mgmt</name>
+<uuid>0935f331-7570-4ff8-a7b2-ee37ffe33774</uuid>
+<forward mode='nat'/>
+<bridge name='virbr_vm' stp='on' delay='0'/>
+<mac address='52:54:00:4a:cc:eb'/>
+<ip address='10.0.0.1' netmask='255.255.255.0'>
+<dhcp>
+<range start='10.0.0.2' end='10.0.0.254'/>
+</dhcp>
+</ip>
+</network>
