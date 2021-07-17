@@ -1,0 +1,66 @@
+# This is a single-NIC configuration to implement the required bridges
+# for OpenStack-Ansible. This illustrates the configuration of the first
+# Infrastructure host and the IP addresses assigned should be adapted
+# for implementation on the other hosts.
+#
+# After implementing this configuration, the host will need to be
+# rebooted.
+
+# Physical interface
+
+source /etc/network/interfaces.d/*.cfg
+
+auto lo
+iface lo inet loopback
+
+auto enp1s0
+iface enp1s0 inet manual
+
+# Container/Host management VLAN interface
+auto enp1s0.10
+iface enp1s0.10 inet manual
+    vlan-raw-device enp1s0
+
+# OpenStack Networking VXLAN (tunnel/overlay) VLAN interface
+auto enp1s0.30
+iface enp1s0.30 inet manual
+    vlan-raw-device enp1s0
+
+# Storage network VLAN interface (optional)
+auto enp1s0.20
+iface enp1s0.20 inet manual
+    vlan-raw-device enp1s0
+
+# Container/Host management bridge
+auto br-mgmt
+iface br-mgmt inet static
+    bridge_stp off
+    bridge_waitport 0
+    bridge_fd 0
+    bridge_ports enp1s0.10
+    address 172.29.236.15
+    netmask 255.255.252.0
+    dns-nameservers 8.8.8.8
+
+
+# OpenStack Networking VXLAN (tunnel/overlay) bridge
+#
+# The COMPUTE, NETWORK and INFRA nodes must have an IP address
+# on this bridge.
+#
+auto br-vxlan
+iface br-vxlan inet static
+    bridge_stp off
+    bridge_waitport 0
+    bridge_fd 0
+    bridge_ports enp1s0.30
+    address 172.29.240.15
+    #gateway 172.29.244.1
+    netmask 255.255.252.0
+
+auto br-storage
+iface br-storage inet manual
+    bridge_stp off
+    bridge_waitport 0
+    bridge_fd 0
+    bridge_ports enp1s0.20
