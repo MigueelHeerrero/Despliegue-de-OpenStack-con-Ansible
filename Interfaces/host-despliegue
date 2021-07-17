@@ -1,0 +1,23 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+# Container/Host management VLAN interface
+auto virbr_vm.10
+iface virbr_vm.10 inet manual
+    vlan-raw-device virbr_vm
+
+# Container/Host management bridge
+auto br-mgmt
+iface br-mgmt inet static
+    bridge_stp off
+    bridge_waitport 0
+    bridge_fd 0
+    bridge_ports virbr_vm.10
+    address 172.29.236.16
+    netmask 255.255.252.0
+    #gateway 172.29.236.1
+    dns-nameservers 8.8.8.8
