@@ -15,6 +15,7 @@ En este repositorio se recogen los principales archivos de configuración para e
 
 · Release notes: https://docs.openstack.org/releasenotes/openstack-ansible/
 # Guía paso a paso
+## Despliegue y configuración de máquinas
 En una máquina Linux con KVM instalado, ejecutamos los siguientes comandos para  configurar el puente de KVM, haciendo uso del archivo nat-net.xml:
  virsh net-define nat-net.xml 
  virsh net-start NAT_mgmt 
@@ -57,6 +58,8 @@ Reiniciamos los servicios de red:
 
  systemctl restart networking
  
+## Openstack
+ 
 Procedemos a clonar el repositorio de Openstack:
 
  git clone -b master https://github.com/openstack/openstack-ansible.git /opt/openstack-ansible
@@ -84,6 +87,8 @@ Y ya estamos listos para ejecutar los playbooks uno a uno:
  openstack-ansible setup-openstack.yml
 
 Una vez finalizada la ejecución del último Playbook, podremos acceder a Openstack a través de la IP 172.29.236.10
+
+## Open Source MANO
 
 A continuación, en la máquina OSM, procederemos a instalar Open Spurce MANO mediante los siguientes comandos:
 
