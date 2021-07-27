@@ -84,3 +84,21 @@ Y ya estamos listos para ejecutar los playbooks uno a uno:
  openstack-ansible setup-openstack.yml
 
 Una vez finalizada la ejecución del último Playbook, podremos acceder a Openstack a través de la IP 172.29.236.10
+
+A continuación, en la máquina OSM, procederemos a instalar Open Spurce MANO mediante los siguientes comandos:
+
+wget https://osm-download.etsi.org/ftp/osm-10.0-ten/install_osm.sh
+
+chmod +x install_osm.sh
+
+./install_osm.sh
+
+Una  vez finalizado podremos acceder a la interfaz de OSM a traves del navegador introduciendo la dirección 10.0.0.5
+
+Llegados a este punto procedemos a vincular OSM y Openstack por medio del siguiente comando en una terminal de la máquina controller:
+
+ssh controller@10.0.0.2
+
+osm vim-create --name openstack-site --user admin --password 7d952e2c37d6d586edeebb7cd4487935e --auth_url https://172.29.236.10:5000/v3/ --tenant admin --account_type openstack --config '{insecure: True}'
+
+Con este último paso completado, llegamos al punto de probar la infraestructura ordenando la creación de una instancia desde Open Source MANO.
